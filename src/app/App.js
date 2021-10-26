@@ -174,99 +174,6 @@ class SlideContainer extends React.Component{
   }
 }
 
-
-
-
-
-
-
-class Table extends React.Component{
-  constructor(props){
-    super(props);
-    this.state ={
-      members:[]
-    }
-  }
-
-  componentDidMount(){
-    fetch("https://6129ebf1068adf001789b975.mockapi.io/api/users")
-    .then(response=>response.json())
-    .then(
-      (result)=>{
-        this.setState({
-          members: result
-        })
-      }
-    )
-  }
-
-  render(){
-    return (
-      <div className="table">
-        <header>
-        <div className="header-text">
-          <h1 className="table-name">New Arrivals</h1>
-          <p className="table-about">More than 400+ new members</p>
-        </div>
-      </header>
-      <nav className="table-bar">
-        <h1 className="bar-products">PRODUCTS</h1>
-        <h1 className="bar-titles">EARNINGS</h1>
-        <h1 className="bar-titles">COMISSION</h1>
-        <h1 className="bar-titles">COMPANY</h1>
-        <h1 className="bar-titles">RATING</h1>
-      </nav>
-      <div className="member-list">
-        {this.state.members.map(memberObj=>
-      <div className="member" key={memberObj.id} id={memberObj.id}>
-        <div className="about-member">
-        <img className="member-avatar" src={memberObj.avatar}/>
-        <div className="text-about">
-          <h3 className="member-name">{memberObj.name}</h3>
-          <p className="it-skills">{memberObj.itSkills}</p>
-        </div>
-      </div>
-      <div className="earnings">
-      <h3 className="earnings-amount">{memberObj.earnings+ "$"}</h3>
-      <p className="earnings-progress">{memberObj.earningProcess}</p>
-    </div>
-    <div className="comission">
-        <h3 className="comission-amount">{memberObj.comission+"$"}</h3>
-        <p className="comission-progress">{memberObj.comissionProgress}</p>
-      </div>
-      <div className="company">
-        <h3 className="company-name">{memberObj.company}</h3>
-        <p className="field-of-activity">{memberObj.fieldOfActivity}</p>
-      </div>
-      <div className="rating">
-        <h3 className="rating-data">{memberObj.rating+"%"}</h3>
-        <p className="rating-description" value={this.getRatingDescription(memberObj.rating)}></p>
-      </div>
-      </div>
-  )}
-      </div>
-      </div>
-
-    )
-  }
-  getRatingDescription(ratingPercent){
-    switch (ratingPercent){
-      case ratingPercent >= 90:
-        return "Best Rated";
-      case ratingPercent >= 75:
-        return "Above Average";
-      case ratingPercent >=50:
-        return "Average";
-      case ratingPercent >=25:
-        return "Mixed Rating";
-      case ratingPercent < 25:
-        return "Bad Rated";
-      }
-    }
-
-}
-
-
 class Product{
   render(props){
     return (
@@ -340,6 +247,7 @@ class Rate{
   }
 
 
+
 class Header{
   render(){
     return (
@@ -366,5 +274,151 @@ class TableBar{
     )
   }
 }
+
+
+
+
+class Table extends React.Component{
+  constructor(props){
+    super(props);
+    this.state ={
+      members:[]
+    }
+  }
+
+  componentDidMount(){
+    fetch("https://6129ebf1068adf001789b975.mockapi.io/api/users")
+    .then(response=>response.json())
+    .then(
+      (result)=>{
+        this.setState({
+          members: result
+        })
+      }
+    )
+  }
+
+  render(){
+    return (
+      <div className="app">
+      <header>
+        <div>
+          <h1>New Arrivals</h1>
+          <p>More than 400+ new members</p>
+        </div>
+          <div>
+            <button className="tool-button">New Report</button>
+            <button className="tool-button">Create</button>
+          </div>
+      </header>
+      <table>
+        <tr id="table-header">
+          <th colSpan="2">PRODUCTS</th>
+          <th>EARNINGS</th>
+          <th>COMISSION</th>
+          <th>COMPANY</th>
+          <th>RATING</th>
+          <th></th>
+        </tr>
+        {this.state.members.map(memberObj=>
+          <tr key={memberObj.id}>
+            <td><img src={memberObj.avatar} alt={memberObj.name}></img></td>
+            <td className="about-member">
+              <h3>{memberObj.name}</h3>
+              <p>{memberObj.itSkills}</p>
+            </td>
+            <td className="earnings">
+              <h3>{memberObj.earnings.toLocaleString()+ "$"}</h3>
+              <p>{memberObj.earningProgress}</p>
+            </td>
+            <td className="comission">
+              <h3>{memberObj.comission.toLocaleString()+"$"}</h3>
+              <p>{memberObj.comissionProgress}</p>
+            </td>
+            <td className="company">
+              <h3>{memberObj.company}</h3>
+              <p>{memberObj.fieldOfActivity}</p>
+            </td>
+            <td className="rating">
+              <h3>{memberObj.rating+"%"}</h3>
+              <p>{this.getRatingDescription(memberObj.rating)}</p>
+            </td>
+            <td>
+            <button className="offer-button">View Offer</button>
+            </td>
+          </tr>
+          )}
+      </table>
+      </div>
+
+    )
+  }
+  getRatingDescription(ratingPercent){
+    switch (true){
+    
+      case ratingPercent >=90:
+        return "Best Rated";
+      case ratingPercent >= 75:
+        return "Above Average";
+      case ratingPercent >=50:
+        return "Average";
+      case ratingPercent >=25:
+        return "Mixed Rating";
+      case ratingPercent < 25:
+        return "Bad Rated";
+      }
+    }
+
+}
+
+
+
+
+
+class Excel{
+  render(){
+    return (
+      <table>
+        <tr>
+          <th colSpan="2">PRODUCTS</th>
+          <th>EARNINGS</th>
+          <th>COMISSION</th>
+          <th>COMPANY</th>
+          <th>RATING</th>
+        </tr>
+        {this.state.members.map(memberObj=>
+          <tr key={memberObj.id}>
+            <th><img className="member-avatar" src={memberObj.avatar}></img></th>
+            <th className="about-member">
+              <h3 className="member-name">{memberObj.name}</h3>
+              <p className="it-skills">{memberObj.itSkills}</p>
+            </th>
+            <th className="earnings">
+              <h3 className="earnings-amount">{memberObj.earnings+ "$"}</h3>
+              <p className="earnings-progress">{memberObj.earningProgress}</p>
+            </th>
+            <th className="comission">
+              <h3 className="comission-amount">{memberObj.comission+"$"}</h3>
+              <p className="comission-progress">{memberObj.comissionProgress}</p>
+            </th>
+            <th className="company">
+              <h3 className="company-name">{memberObj.company}</h3>
+              <p className="field-of-activity">{memberObj.fieldOfActivity}</p>
+            </th>
+            <th className="rating">
+              <h3 className="rating-data">{memberObj.rating+"%"}</h3>
+              <p className="rating-description" value={this.getRatingDescription(memberObj.rating)}></p>
+            </th>
+            <button className="offer-button">View Offer</button>
+          </tr>
+          )}
+      </table>
+    )
+  }
+}
+
+
+
+
 
 export default Table
